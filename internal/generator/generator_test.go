@@ -20,7 +20,7 @@ func TestAscii(t *testing.T) {
 		"                               \n" +
 		"                               \n"
 
-	output := AsciiGen(input, "standard")
+	output := AsciiGen(input, "standard", "", "")
 
 	if !reflect.DeepEqual(expected, output) {
 		t.Errorf("Failed.\n Expected:\n[%v]\n Got:\n[%v]", expected, output)

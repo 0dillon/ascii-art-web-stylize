@@ -2,12 +2,12 @@ package generator
 
 import (
 	"fmt"
+	"html"
 	"os"
 	"strings"
 )
 
-func AsciiGen(sentence, bannerFile string) string {
-	// Construct the path to the banner file
+func AsciiGen(sentence, bannerFile, subString, color string) string {
 	file := "./banners/" + bannerFile + ".txt"
 	content, err := os.ReadFile(file)
 	if err != nil {
@@ -15,36 +15,52 @@ func AsciiGen(sentence, bannerFile string) string {
 	}
 
 	banner := strings.Split(string(content), "\n")
-
 	sentence = strings.ReplaceAll(sentence, "\r\n", "\n")
 	strSlice := strings.Split(sentence, "\n")
-
 	var strBuild strings.Builder
 
-	// Loop through each line of the input sentence
 	for _, word := range strSlice {
-
 		if word == "" {
 			strBuild.WriteByte('\n')
-
 			continue
 		}
 
-		for i := 1; i < 9; i++ {
-
-			for _, ch := range word {
-				if ch < ' ' || ch > '~' {
-					return ""
+		// Map which characters fall within the target substring
+		colorMap := make([]bool, len(word))
+		if subString != "" {
+			idx := 0
+			for {
+				i := strings.Index(word[idx:], subString)
+				if i == -1 {
+					break
 				}
-				// Calculate the starting index of that character in the banner file
+				for j := 0; j < len(subString); j++ {
+					colorMap[idx+i+j] = true
+				}
+				idx += i + len(subString)
+			}
+		}
+
+		// Build the ASCII art row by row
+		for i := 1; i < 9; i++ {
+			for charIdx, ch := range word {
+				if ch < ' ' || ch > '~' {
+					continue // Skip non-printable characters
+				}
 				start := ((int(ch) - 32) * 9) + i
 
-				// Append the corresponding ASCII art line for that character to the string builder
-				strBuild.WriteString(banner[start])
+				// Escape the ASCII characters so they render safely in HTML
+				escapedArt := html.EscapeString(banner[start])
+
+				// If the character is part of the substring, wrap it in a colored span
+				if colorMap[charIdx] {
+					strBuild.WriteString(fmt.Sprintf("<span style=\"color: %s;\">%s</span>", color, escapedArt))
+				} else {
+					strBuild.WriteString(escapedArt)
+				}
 			}
 			strBuild.WriteByte('\n')
 		}
 	}
-
 	return strBuild.String()
 }

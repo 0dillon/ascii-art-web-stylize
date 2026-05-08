@@ -1,93 +1,81 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ASCII-ART-WEB</title>
-  </head>
-  <body
-    style="
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    "
-  >
-    <h1>ASCII ART GENERATOR</h1>
-    <form
-      action="/ascii-art"
-      method="POST"
-      style="
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-      "
-    >
-      <div>
-        <textarea
-          name="inputText"
-          style="width: 700px; height: 200px; font-size: x-large"
-          id="input"
-          placeholder="Enter a text..."
-        >
-{{ .Text}}</textarea
-        >
-      </div>
-      <div>
-        <select
-          name="bannerType"
-          id="banner"
-          style="
-            margin: 20px;
-            height: 30px;
-            width: 190px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-          "
-        >
-          <option id="ban1" value="standard">Standard</option>
-          <option id="ban2" value="shadow">Shadow</option>
-          <option id="ban3" value="thinkertoy">Thinkertoy</option>
-        </select>
-      </div>
-      <div>
-        <button
-          type="submit"
-          style="
-            width: 150px;
-            padding: 5px 0px;
-            font-weight: bold;
-            font-size: larger;
-          "
-        >
-          GENERATE
-        </button>
-      </div>
-    </form>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
 
-    {{if .Result}}
-    <div
-      id="out"
-      style="
-        background-color: black;
-        height: fit-content;
-        min-width: 700px;
-        max-width: 80%;
-        overflow-x: auto;
-        scroll-behavior: smooth;
-        white-space: nowrap;
-        margin: 20px;
-      "
-    >
-      <pre style="color: white">{{ .Result}}</pre>
+    <div class="ambient-bg">
+        <div class="stream-layer stream-1">01010101 10101010 00110011 11001100 01010101 10101010 00110011 11001100 01010101</div>
+        <div class="stream-layer stream-2">/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\/*\</div>
+        <div class="stream-layer stream-3">+ - * + - * + - * + - * + - * + - * + - * + - * + - * + - * + - * + - * + - * + - *</div>
+        <div class="stream-layer stream-4">1001001 0110110 1001001 0110110 1110001 0001110 1001001 0110110 1001001 0110110</div>
+        <div class="stream-layer stream-5">&lt; &gt; &lt; &gt; = = = &lt; &gt; &lt; &gt; = = = &lt; &gt; &lt; &gt; = = = &lt; &gt; &lt; &gt; = = = &lt; &gt; &lt; &gt; = = =</div>
     </div>
-    <button>
-      <a href="/" style="text-decoration: none; color: black">Home</a>
-    </button>
-    {{end}}
-  </body>
+
+    <main class="container">
+        <h1>ASCII ART GENERATOR</h1>
+        
+        <form action="/ascii-art" method="POST" class="generator-form">
+            <div class="input-wrapper">
+                <textarea
+                    name="inputText"
+                    id="input"
+                    class="symmetrical-box text-input"
+                    placeholder="Enter a text..."
+                    required
+                    oninvalid="this.setCustomValidity('There needs to be a word')"
+                    oninput="this.setCustomValidity('')"
+                >{{ .Text}}</textarea>
+            </div>
+            
+            
+            <div class="controls-row">
+                <select name="bannerType" id="banner" class="ui-element">
+                    <option value="standard">Standard</option>
+                    <option value="shadow">Shadow</option>
+                    <option value="thinkertoy">Thinkertoy</option>
+                </select>
+
+                <input 
+                    type="text" 
+                    name="substring" 
+                    class="ui-element sub-input" 
+                    placeholder="Word to color (optional)" 
+                    value="{{ .SubString }}"
+                    autocomplete="off" 
+                />
+                
+                <select name="textColor" class="ui-element color-dropdown">
+                    <option value="white">White</option>
+                    <option value="#00ff00" selected>Green</option>
+                    <option value="#ff0000">Red</option>
+                    <option value="#0088ff">Blue</option>
+                    <option value="#ffff00">Yellow</option>
+                    <option value="#ff00ff">Magenta</option>
+                    <option value="#00ffff">Cyan</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="generate-btn">GENERATE</button>
+        </form>
+
+        {{if .Result}}
+        <div id="out" class="symmetrical-box ascii-output" {{ .Style }}>
+            <pre>{{ .Result}}</pre>
+        </div>
+        
+        <button class="home-btn">
+            <a href="/">Home</a>
+        </button>
+        {{end}}
+    </main>
+
+</body>
 </html>

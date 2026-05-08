@@ -1,0 +1,253 @@
+/* --- 1. VARIABLES & DESIGN SYSTEM --- */
+:root {
+    --bg-base: #0f1115;
+    --surface-color: #1a1d24;
+    --border-color: #2a2e37;
+    --text-main: #d1d5db;
+    --text-muted: #9ca3af;
+    --accent-color: #3b82f6; 
+    --accent-hover: #2563eb;
+    
+    --font-ui: 'Inter', sans-serif;
+    --font-ascii: 'Fira Code', Courier, monospace;
+    
+    --radius: 8px;
+    --transition: 0.2s ease-in-out;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    font-family: var(--font-ui);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    overflow-x: hidden;
+}
+
+/* --- 2. FAST HORIZONTAL PARALLAX ANIMATION --- */
+.ambient-bg {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: -1;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    overflow: hidden;
+    opacity: 0.2; /* Slightly increased visibility for the fast streams */
+}
+
+.stream-layer {
+    font-family: var(--font-ascii);
+    color: var(--accent-color);
+    white-space: nowrap;
+    will-change: transform;
+    text-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+/* Layering logic: Speeds drastically increased, alternating directions */
+.stream-1 { font-size: 2rem; opacity: 0.6; animation: scrollLeft 12s linear infinite; }
+.stream-2 { font-size: 1rem; opacity: 0.3; animation: scrollRight 8s linear infinite; }
+.stream-3 { font-size: 1.5rem; opacity: 0.8; font-weight: bold; animation: scrollLeft 15s linear infinite; }
+.stream-4 { font-size: 0.8rem; opacity: 0.4; animation: scrollRight 10s linear infinite; }
+.stream-5 { font-size: 3rem; opacity: 0.15; animation: scrollLeft 20s linear infinite; }
+
+@keyframes scrollLeft {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-150vw); }
+}
+
+@keyframes scrollRight {
+    0% { transform: translateX(-150vw); }
+    100% { transform: translateX(100vw); }
+}
+
+/* --- 3. MAIN CONTAINER & LAYOUT --- */
+.container {
+    width: 100%;
+    max-width: 900px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background: rgba(15, 17, 21, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+h1 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.generator-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-wrapper {
+    width: 100%;
+}
+
+/* --- 4. SYMMETRICAL BOXES --- */
+.symmetrical-box {
+    width: 100%;
+    height: 180px;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 15px;
+    color: var(--text-main);
+    font-family: var(--font-ascii);
+}
+
+.text-input {
+    font-size: 1.1rem;
+    resize: none; 
+    transition: var(--transition);
+}
+
+.text-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background-color: #222630;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+}
+
+.ascii-output {
+    overflow: auto; 
+    background-color: #08090a; 
+}
+
+.ascii-output pre {
+    line-height: 1.2;
+    margin: 0;
+    color: var(--ascii-color, #ffffff); 
+}
+
+/* --- 5. CONTROLS GRID --- */
+.controls-row {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px;
+    width: 100%;
+}
+
+.ui-element {
+    flex: 1 1 200px; 
+    height: 45px;
+    padding: 0 15px;
+    font-size: 1rem;
+    color: var(--text-main);
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    transition: var(--transition);
+}
+
+.ui-element:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+}
+
+select.ui-element {
+    cursor: pointer;
+}
+
+/* --- 6. BUTTONS --- */
+.generate-btn {
+    width: 100%;
+    max-width: 300px;
+    align-self: center; 
+    height: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    color: white;
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 10px;
+}
+
+.generate-btn:hover {
+    background-color: var(--accent-hover);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+}
+
+.generate-btn:active {
+    transform: scale(0.98);
+}
+
+.home-btn {
+    align-self: center;
+    padding: 10px 30px;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.home-btn a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.home-btn:hover {
+    background-color: #2a2e37;
+    border-color: var(--text-muted);
+}
+.home-btn:hover a {
+    color: var(--text-main);
+}
+
+/* --- 7. MOBILE RESPONSIVENESS --- */
+@media (max-width: 600px) {
+    body {
+        padding: 1rem;
+    }
+
+    .container {
+        padding: 1.2rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .controls-row {
+        flex-direction: column; 
+    }
+
+    .ui-element {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .ascii-output pre {
+        font-size: 0.7rem; 
+    }
+}
