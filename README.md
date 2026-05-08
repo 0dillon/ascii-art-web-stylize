@@ -22,12 +22,6 @@ The project supports multiple ASCII banner styles and introduces customizable co
 
 ---
 
-## Author
-
-Dillon Ofili
-
----
-
 ## Requirements
 
 - Go 1.18 or higher
@@ -144,6 +138,12 @@ go test ./...
 | TestNotFound404 | Verifies 404 handling |
 | TestBadRequest400 | Verifies invalid input handling |
 | TestInternalServerError500 | Verifies template loading failure handling |
+
+---
+
+## Author
+
+Dillon Ofili
 
 ---
 
