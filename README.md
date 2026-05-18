@@ -141,9 +141,10 @@ go test ./...
 
 ---
 
-## Author
+## Authors
 
 Dillon Ofili
+Anthony iwueze
 
 ---
 
