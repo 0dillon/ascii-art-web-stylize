@@ -141,7 +141,7 @@ go test ./...
 
 ---
 
-## Authors
+## Author
 
 Dillon Ofili
 
