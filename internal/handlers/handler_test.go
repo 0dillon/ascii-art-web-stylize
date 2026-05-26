@@ -9,6 +9,11 @@ import (
 	"testing"
 )
 
+// Move up to the project root so tests can find the /templates folder
+func init() {
+	os.Chdir("../../")
+}
+
 // Testing for 200 status code on home page.
 func TestSuccessfullHome200(t *testing.T) {
 	req := httptest.NewRequest("GET", "/", nil)

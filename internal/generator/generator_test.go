@@ -1,9 +1,15 @@
 package generator
 
 import (
+	"os"
 	"reflect"
 	"testing"
 )
+
+// Move up to the project root so tests can find the /banners folder
+func init() {
+	os.Chdir("../../")
+}
 
 // Unit test for ascii-generator function.
 func TestAscii(t *testing.T) {

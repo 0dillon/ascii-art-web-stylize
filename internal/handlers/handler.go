@@ -51,7 +51,7 @@ func AsciiArt(w http.ResponseWriter, r *http.Request) {
 	data := pageData{
 		Text:      inputText,
 		SubString: subString, // Pass the value back to the template
-		Result:    template.HTML(rawResult), 
+		Result:    template.HTML(rawResult),
 	}
 
 	// Logic for coloring:
